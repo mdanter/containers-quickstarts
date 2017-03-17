@@ -11,13 +11,14 @@ LABEL com.redhat.component="jenkins-slave-ansible-stacks" \
 
 USER root
 
-ENV ANSIBLE_YUM_REPO=${ANSIBLE_YUM_REPO:-rhel-7-server-ose-3.3-rpms} \
-    ANSIBLE_STACKS_SOURCE_REPOSITORY_URL=${ANSIBLE_STACKS_SOURCE_REPOSITORY_URL:-https://github.com/rht-labs/ansible-stacks.git} \
+ENV ANSIBLE_STACKS_SOURCE_REPOSITORY_URL=${ANSIBLE_STACKS_SOURCE_REPOSITORY_URL:-https://github.com/rht-labs/ansible-stacks.git} \
     ANSIBLE_STACKS_SOURCE_REPOSITORY_REF=${ANSIBLE_STACKS_SOURCE_REPOSITORY_REF:-master}
 
-RUN yum --enablerepo ${ANSIBLE_YUM_REPO} install -y \
-      ansible \
+RUN yum -y install python python-setuptools python-setuptools-devel gcc python-devel openssl-devel pyOpenSSL git && \
+    easy_install pip && \
+    pip install -U M2Crypto paramiko PyYAML Jinja2 httplib2 six pyopenssl boto ansible &&\
     yum clean all && \
+    rm -rf /opt/ansible-stacks && \
     git clone ${ANSIBLE_STACKS_SOURCE_REPOSITORY_URL} /opt/ansible-stacks && \
     cd /opt/ansible-stacks && \
     git checkout ${ANSIBLE_STACKS_SOURCE_REPOSITORY_REF}

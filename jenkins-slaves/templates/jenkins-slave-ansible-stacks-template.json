@@ -22,7 +22,7 @@
         {
             "description": "Git source URI for application ",
             "name": "SOURCE_REPOSITORY_URL",
-            "value": "https://github.com/redhat-cop/containers-quickstarts.git",
+            "value": "https://github.com/mdanter/containers-quickstarts.git",
             "required": true
         },
         {
@@ -52,7 +52,7 @@
         {
             "description": "Git branch/tag reference",
             "name": "ANSIBLE_YUM_REPO",
-            "value": "rhel-7-server-ose-3.3-rpms",
+            "value": "rhel-7-server-ose-3.4-rpms",
             "required": true
         }
     ],
@@ -61,7 +61,7 @@
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "jenkins-slave-base-rhel7"
+                "name": "jenkins-slave-ansible-stacks"
             },
             "spec": {
                 "dockerImageRepository": "registry.access.redhat.com/openshift3/jenkins-slave-base-rhel7"
@@ -104,7 +104,7 @@
                     "dockerStrategy": {
                         "from": {
                             "kind": "ImageStreamTag",
-                            "name": "jenkins-slave-base-rhel7:latest"
+                            "name": "jenkins-slave-ansible-stacks:latest"
                         },
                         "env": [
                             {
